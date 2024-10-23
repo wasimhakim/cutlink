@@ -17,11 +17,16 @@ export const shortenUrl = (req, res, next) => {
 }
 
 export const urlList = (req, res, next) => {
-  res.status(200).json(getAllUrls())
+  try {
+    const urls = getAllUrls()
+    res.status(200).json(urls)
+  } catch(error) {
+    next(error)
+  }
 }
 
 export const redirectUrl = (req, res, next) => {
-  const shortCode = req.params.shortCode;
+  const shortCode = req.params[0];
 
   try {
     const originalUrl = getOriginalUrl(shortCode);

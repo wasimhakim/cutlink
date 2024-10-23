@@ -11,7 +11,7 @@ export const generateShortUrl = (originalUrl) => {
   const urlPath = new URL(originalUrl).pathname;
 
   const firstShortUrl = `${baseUrl}${urlPath}`
-  urlMap.set(urlPath, originalUrl)
+  urlMap.set(urlPath?.substring(1), originalUrl)
 
   let shortcode;
   do {
