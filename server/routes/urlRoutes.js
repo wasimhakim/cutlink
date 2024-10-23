@@ -9,4 +9,4 @@ router.post('/shorten', shortenUrl);
 
 router.get('/*', redirectUrl)
 
-export default router;a
+export default router;
