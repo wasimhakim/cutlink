@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { shortenUrl } from '../controllers/urlController.js';
+import { shortenUrl, redirectUrl, urlList } from '../controllers/urlController.js';
 
 const router = Router();
 
+router.get('/', urlList);
+
 router.post('/shorten', shortenUrl);
+
+router.get('/:shortCode', redirectUrl)
 
 export default router;
