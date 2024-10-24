@@ -4,12 +4,14 @@ const UrlShortener = (props) => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [error, setError] = useState('');
 
+  const apiUrl = process.env.REACT_APP_API_URL
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/url/shorten', {
+      const response = await fetch(`${apiUrl}/url/shorten`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ originalUrl }),

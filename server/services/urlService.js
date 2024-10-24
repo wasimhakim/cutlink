@@ -34,3 +34,12 @@ export const getAllUrls = () => {
       originalUrl
   }));
 };
+
+export const deleteUrlByCode = (shortCode) => {
+  console.log(shortCode)
+  if (urlMap.has(shortCode)) {
+      urlMap.delete(shortCode); // Remove the entry from the map
+      return true;
+  }
+  return false;
+};

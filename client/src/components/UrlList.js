@@ -4,10 +4,12 @@ const UrlList = (props) => {
   const [urls, setUrls] = useState([]);
   const [error, setError] = useState('');
 
+  const apiUrl = process.env.REACT_APP_API_URL
+
   useEffect(() => {
     const fetchUrls = async () => {
       try {
-        const response = await fetch('http://localhost:5000/url/');
+        const response = await fetch(`${apiUrl}/url/`);
         if (!response.ok) {
           throw new Error('Failed to fetch URLs');
         }
@@ -22,6 +24,26 @@ const UrlList = (props) => {
     fetchUrls();
   }, [props.newUrlAdded]);
 
+  const handleDelete = async (shortCode) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this URL?');
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`${apiUrl}/url/${shortCode}`, {
+          method: 'DELETE',
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to delete URL');
+        }
+        // Update the table by removing the deleted URL
+        setUrls(urls.filter(url => url.shortCode !== shortCode));
+      } catch (err) {
+        setError('Error: ' + err.message);
+      }
+    }
+  };
+
   return (
     <div className='url-list'>
       <h2>All Shortened URLs</h2>
@@ -34,6 +56,7 @@ const UrlList = (props) => {
               <th>Original URL</th>
               <th>Shortened Path</th>
               <th>Short Code</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -45,14 +68,17 @@ const UrlList = (props) => {
                   </a>
                 </td>
                 <td>
-                  <a href={`http://localhost:5000/${url.shortCode}`} target="_blank" rel="noopener noreferrer">
-                    {`http://localhost:5000/${url.shortCode}`}
+                  <a href={`${apiUrl}/${url.shortCode}`} target="_blank" rel="noopener noreferrer">
+                    {`${apiUrl}/${url.shortCode}`}
                   </a>
                 </td>
                 <td>
-                  <a href={`http://localhost:5000/${url.shortCode}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`${apiUrl}/${url.shortCode}`} target="_blank" rel="noopener noreferrer">
                     {url.shortCode}
                   </a>
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(url.shortCode)}>Delete</button>
                 </td>
               </tr>
             ))}
