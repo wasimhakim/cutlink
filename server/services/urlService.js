@@ -10,8 +10,11 @@ const generateShortCode = () => {
 export const generateShortUrl = (originalUrl) => {
   const urlPath = new URL(originalUrl).pathname;
 
-  const firstShortUrl = `${baseUrl}${urlPath}`
-  urlMap.set(urlPath?.substring(1), originalUrl)
+  let firstShortUrl;
+  if(urlPath != "/" && !urlMap.has(urlPath)) {
+    firstShortUrl = `${baseUrl}${urlPath}`
+    urlMap.set(urlPath?.substring(1), originalUrl)
+  }
 
   let shortcode;
   do {
