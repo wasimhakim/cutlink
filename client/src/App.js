@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import UrlShortener from './components/UrlShortener';
+import UrlList from './components/UrlList';
 
 function App() {
+  const[newUrlAdded, setNewUrlAdded] = useState(false)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UrlShortener newUrlAdded={setNewUrlAdded} />
+      <hr />
+      <UrlList newUrlAdded={newUrlAdded} setNewUrlAdded={setNewUrlAdded} />
     </div>
   );
 }
