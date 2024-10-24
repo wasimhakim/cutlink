@@ -4,17 +4,20 @@ import cors from 'cors'
 
 import urlRoutes from './routes/urlRoutes.js'
 import { redirectUrl } from './controllers/urlController.js'
+import { errorHandler } from './utils/errorHandler.js'
 
 config() // Load env variables
 
 const app = express()
 app.use(urlencoded({ extended: true }));
-app.use(json()) // Parse json requests
+app.use(json())
 app.use(cors())
 
 app.use('/url', urlRoutes);
 
 app.use('/*', redirectUrl)
+
+app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 5000

@@ -15,8 +15,10 @@ const UrlShortener = (props) => {
         body: JSON.stringify({ originalUrl }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to shorten the URL');
+      const data = await response.json()
+
+      if (data?.code == 500) {
+        throw new Error(data.message);
       }
 
       props.newUrlAdded(true)

@@ -1,11 +1,20 @@
 import { generateShortUrl, getAllUrls, getOriginalUrl } from '../services/urlService.js'
+import { isValidUrl, isUrlMissing } from '../utils/urlHelper.js';
 
 export const shortenUrl = (req, res, next) => {
   const { originalUrl } = req.body;
 
   try {
-    if (originalUrl == "" || originalUrl == undefined) {
-      throw new Error('Invalid URL')
+    if (isUrlMissing(originalUrl)) {
+      const error = new Error('URL is required and cannot be empty')
+      error.statusCode = 400
+      throw error
+    }
+
+    if (!isValidUrl(originalUrl)) {
+      const error = new Error('Invalid URL format');
+      error.statusCode = 400;
+      throw error;
     }
 
     const { firstShortUrl, secondShortUrl } = generateShortUrl(originalUrl)
